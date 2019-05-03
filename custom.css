@@ -1,0 +1,39 @@
+.remark-slide-number {
+position: inherit;
+}
+
+.remark-slide-number .progress-bar-container {
+position: absolute;
+bottom: 0;
+height: 4px;
+display: block;
+left: 0;
+right: 0;
+}
+
+.remark-slide-number .progress-bar {
+height: 100%;
+background-color: red;
+}
+
+.title-slide .remark-slide-number {
+  display: none;
+}
+
+/*
+span {
+    position: relative;
+}
+
+span.imgText img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 50px;
+    width: 50px;
+}
+*/
+
+.remark-code-line {
+  background-color: #e7e8e2;
+}

@@ -1,0 +1,40 @@
+---
+title: "`r emo::ji('package')` Developing Packages `r emo::ji('package')`"
+subtitle: "The Life-Cycle of Creating and Deploying Packages with R"
+author: "<br>Kyle Harris <br><i class='fab fa-twitter'></i> <i class='fab fa-instagram'></i> <i class='fab fa-github'></i> @KoderKow"
+date: "<i class='fas fa-globe'></i> https://koderkow.rbind.io<br>Follow Along: **Coming Soon**"
+output:
+  xaringan::moon_reader:
+    fig_catption: yes
+    lib_dir: libs
+    css: ["default", "metropolis", "metropolis-fonts", "custom.css"]
+    nature:
+      ratio: 16:9
+      highlightStyle: github
+      highlightLines: true
+      highlightSpans: true
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+# Overview
+
+- [Presentation Goal](#presentation_goal)
+- [What is a Package?](#what_is_a_package)
+
+---
+
+name: presentation_inspiration
+
+# Presentation Goal
+
+---
+
+name: what_is_a_package
+
+# What is a Package?
