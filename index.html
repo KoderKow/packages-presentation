@@ -28,13 +28,17 @@ class: center, middle, inverse, title-slide
 
 # Overview
 
-- [Presentation Goal](#presentation_goal)
+- [Presentation Goal](#presentation-goal)
 - [Prerequisites](#prerequisites)
-- [What is a Package?](#what_is_a_package)
+- [What is a Package?](#what-is-a-package)
+&lt;hr&gt;
+- [Creating a Package](#create-package)
+- [Setting up Git Hub With Your Package](#setup-git)
+- [First Function](#first-function)
 
 ---
 
-name: presentation_goal
+name: presentation-goal
 
 # Presentation Goal
 
@@ -47,7 +51,7 @@ I made this presentation to help bring together multiple sources of amazing info
 - Hosting on github
 - Automate build testing
 - Code coverage
-- TGenerate a package webpage with `pkgdown`
+- Generate a package webpage with `pkgdown`
   - Automate `pkgdown` site with **Travis CI**
 
 ---
@@ -71,18 +75,105 @@ devtools::has_devel()
   - If `FALSE` is returned, follow section 1.3 in Hadley's book [*R Packages*][hadley-getting-started] for assistance in getting everything set up
   
 - To host the package you will need Git and GitHub setup with RStudio
-  - Follow Chapter 14.2 of [*R Packages*: Initial set up][git-setup] if you do not have this already
+  - Follow Chapter 14.2 "Initial set up" of [*R Packages*][git-setup] if you do not have this already
 
 ---
 
-name: what_is_a_package
+name: what-is-a-package
 
 # What is a Package?
+
+---
+
+name: create-package
+
+# Creating a Package With **usethis**
+
+``` r
+library(usethis)
+create_package("~/path/to/directory")
+```
+
+.pull-left[
+- Choose a file path you want your package to be saved
+  - `create_package("~/desktop/samplepackage")` where `samplepackage` is the name of your package
+  - The package name should be lowercase and have no spaces, underderscores, or hyphens
+- Run the code in the RStudio console
+- `create_package` will:
+  - Create the directory
+  - Create the basic file structure
+  - Creates .Rproj file for project work flows
+  - Switch your RStudio to the project made for your package
+- `.gitignore`: anticipates Git usage and ignores some standard, behind-the-scenes files created by R and RStudio
+]
+
+.pull-right[
+- `.Rbuildignore`:  lists files that we need to have around but that should not be included when building the R package from source
+- `.Rproj.user`: if you have it, is a directory used internally by RStudio
+- `DESCRIPTION`: provides [metadata about your package][r-pkg-metadata]
+- [`NAMESPACE`][r-pkg-namespace]: declares the functions your package exports for external use and the external functions your package imports from other packages. At the moment, it holds temporary-yet-functional placeholder content
+- `R/`: directory is the [“business end” of your package][r-pkg-r]. It will soon contain .R files with function definitions.
+- `YOURPACKAGE.Rproj`: is the file that makes this directory an RStudio Project
+]
+
+---
+
+name: setup-git
+
+# Setting up Git Hub With Your Package
+
+``` r
+use_git()
+```
+
+- This will initialise your project as a Git repo
+- `use_git()` will also automatically ask us if we want to commit our current files
+  - Here we will type **1** for "*I agree*" to commit them all by hitting the enter key
+- Next within the console it will ask to restart Rstudio to activate the Git pane
+  - Type **3** for "*Yes*" and hit the enter key
+- Now is a good time to check if RStudio and Git Hub are set up correctly
+- Go to [github.com][git-site] and sign in. Click &lt;img src="https://i.imgur.com/0oG4Vds.png" width="5%"/&gt; To create a new repository
+- Under "Repository Name &lt;span style="color:red"&gt;*&lt;/span&gt;" enter the name of your package and select &lt;img src="https://i.imgur.com/aUcy74c.png" width="10%" /&gt; at the bottom
+- Select the &lt;img src="https://i.imgur.com/9qHWD4G.png" width="3%" /&gt; button under **…or push an existing repository from the command line**, looks like this:
+  - `git remote add origin https://github.com/USER/packagename.git`&lt;br&gt;
+    `git push -u origin master`
+- In RStudio go to the console pane and select the *Terminal* tab. Paste the code into this tab and hit enter. This will push our current commits to Git Hub!
+- Soon we will go over how to commit and push changes to your Git Hub package
+
+---
+
+name: first-function
+
+# First Function
+
+- For this example we will make a simple `is_even()` function for demonstration purposes
+- Type `use_r("is_even")` into the console
+  - Creates a .R file called `is_even.R` for us inside the `R/` directory
+  - This is where all of our functions will live
+
+
+```r
+is_even &lt;- function(x) {
+  x %% 2 == 0
+}
+```
+
+- How can we efficiently test our functions for our package?
+- Avoid running the function localy, instead we can use `load_all()` to experiment with our new function
+- Note that `load_all()` has made the `is_even()` function available, although it does not exist in the global workspace
+- `load_all()` simulates the process of building, installing, and attaching the foofactors package; this is much faster than building, installing, and attaching the package
+- Now we can type `is_even(10)` into our console to test our package
+  - We can see our function is from our new package! 🥳
+.center[&lt;img src="https://i.imgur.com/q72GBKc.png" width="40%"/&gt;]
 
 &lt;!-- links used in slides --&gt;
 [r-pkg-book]: https://r-pkgs.org/
 [git-setup]: https://r-pkgs.org/git.html#git-rstudio
 [hadley-getting-started]: https://r-pkgs.org/intro-why.html#intro-get
+[r-pkg-metadata]: https://r-pkgs.org/description.html#description
+[r-pkg-namespace]: https://r-pkgs.org/namespace.html#namespace
+[r-pkg-r]: https://r-pkgs.org/r.html#r
+[git-site]: https://github.com
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
