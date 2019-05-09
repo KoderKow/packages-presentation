@@ -32,11 +32,13 @@ class: center, middle, inverse, title-slide
 - [Prerequisites](#prerequisites)
 - [What is a Package?](#what-is-a-package)
 - [Creating a Package](#create-package)
-- [Setting up Git](#setup-git)
-- [Setting up GitHub](#setup-github)
 - [First Function](#first-function)
 - [Test Functions](#test-functions)
 - [check() it!](#check-it)
+- [Setting up Git](#setup-git)
+- [Setting up GitHub](#setup-github)
+- [Documenting Functions](#document)
+- [Commit and Push Changes](#commit-and-push)
 
 ---
 
@@ -221,6 +223,7 @@ name: license
 - Run `use_mit_license("FIRST-NAME LAST-NAME")` in the console
 - This will create the files for MIT and update your `DESCRIPTION` file for you
 - `usethis` will print out to the consoles what it is adding and/or changing to files in your package directory
+- This addresses the `Non-standard license specification: What license it uses` warning we received from `check()` earlier
 
 ---
 
@@ -252,7 +255,7 @@ name: setup-github
 - Run `use_github()` in the console and choose the **https** option and then choose the option corresponding to **Yes** for *Are title and description ok?*
 - If everything was done correctly your package is now in your GitHub!
   - Moving forward for other projects using git you can use follow the `use_git()` followed by `use_github()` to create repositories for each project! Nice!
-  - Notice that the description we typed in the `DESCRIPTION` file is used as our description on our GitHub page
+  - Notice that the `Title:` text we typed in the `DESCRIPTION` file is used as our description on our GitHub page
 - In a few more slides we will see how we can commit and push changes to our GitHub repo
 
 ---
@@ -271,7 +274,86 @@ name: document
 - A package called `roxygen2` will handle creating the documentation files in `man/` for us
   - More information about `roxygen2` can be found in chapter 6 [Object documentation][roxygen2]
 
+.pull-left[
+- Open `R/is_even.R` and put the cursor somewhere in the `is_even()` function definition
+- In the menu bar at the top of the screen go to &lt;br&gt; `Code &gt; Insert Roxygen Skeleton`
+- As the command states, this is only the skeleton. We will need to fill in the rest manually
+]
+.pull-right[
+&lt;img src="https://media.giphy.com/media/hWLRtkEeU6eAVwVu8W/giphy.gif" /&gt;
+]
 
+---
+
+# Documentation Example
+
+``` r
+#' Is this value even?
+#' 
+#' Reveals if x is even, where x is a numeric value
+#'
+#' @param x numeric value
+#'
+#' @return boolean
+#' @export
+#'
+#' @examples
+is_even &lt;- function(x) {
+  x %% 2 == 0
+}
+```
+
+- Now we need to tell RStudio to convert our roxygen comments into `man/is_even.R` by running `devtools::document()`
+  - Hotkeys: Ctrl + Shift + D (Windows &amp; Linux) or Cmd + Shift + D (macOS)
+  
+---
+
+# Documentation Example
+
+- This will update `DESCRIPTION` and `NAMESPACE` with the neccessary information to make our function work with the package
+  - `DESCRIPTION`: added `RoxygenNote: 6.1.1`
+  - `NAMESPACE`: added `export(is_even)`
+    - This means we want our package to make our function available to users when they use `library(samplepackage)`
+- This has also created a new folder, `man/`
+  - This is the folder where our documentation for function will go
+  - When users run `?is_even()` this is the file that is brought up
+- Whenever you change a function be sure to update the roxygen2 comments
+  - You will need to run `devtools::document()` each time!
+- Follow this process for every function you create for your package
+- This addresses the `Undocumented code objects: ‘is_even’` warning we received from `check()` earlier
+- Lets run `check()` again to see if we fixed the warnings
+  - If everything was done correctly we should have checkmarks across the board!
+- This is a great time to commit our changes to GitHub
+  
+---
+
+name: commit-and-push
+
+# Commit and Pushing Changes
+
+&lt;center&gt;
+&lt;video autoplay loop muted inline width="450"&gt;
+  &lt;source src="https://i.imgur.com/9hn3GsO.mp4" type="video/mp4"&gt;
+&lt;/video&gt;
+&lt;/center&gt;
+
+- In the **Environment** pane select the **Git** tab and select **Commit**
+1. Select all of the boxes to the left of your files
+2. Write a commit message summarizeing your updates
+  - The gif above is a simple example
+  - It is good to describe all the additions and changes
+  - You can also commit each file seperately with its own message
+3. Hit the **Commit** button
+4. After the commiting is done close the box and select **Push**
+  - Check your GitHub repo online to confirm the code has been updated
+  
+---
+
+# Importing Other Functions
+
+- When we write our functions we may use other libraries functions
+  - Such as the pipe, `%&gt;%`, from magrittr
+- If we want to use these "outsider" functions within our package we will need to tell our package to **import** these libraries and functions
 
 &lt;!-- links used in slides --&gt;
 [r-pkg-book]: https://r-pkgs.org/
