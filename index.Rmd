@@ -51,6 +51,10 @@ where <- switch(
 - [Setting up GitHub](#setup-github)
 - [Documenting Functions](#document)
 - [Commit and Push Changes](#commit-and-push)
+- [Automate Testing](#automate-testing)
+- [Importing Functions](#importing-functions)
+- [Create a README](#readme)
+- [Travis CI](#travis-ci)
 
 ---
 
@@ -58,7 +62,7 @@ name: presentation-goal
 
 # Presentation Goal
 
-The goal of this presentation is to bring together multiple sources of amazing information and tutorials to show how easy it is to not only create a package, but to integrate automated building, testing, and webpages by utilizing pre-built R packages. I hope this inspires others to create and contribute to packages that are used daily in R.
+The goal of this presentation is to serve as a quick start guide to making a package by bring together multiple sources of amazing information and tutorials to show how easy it is to not only create a package, but to integrate automated building, testing, and webpages by utilizing pre-built R packages. I hope this inspires others to create and contribute to packages that are used daily in R.
 
 ## Goals
 
@@ -363,11 +367,187 @@ name: commit-and-push
   
 ---
 
+name: automate-testing
+
+# Automate Testing of Functions
+
+- Earlier we informaly tested `is_even()` with `load_all()`, as we create more functions and make them more robust we will look to unit tests to simplify this process
+- What does this mean? We will declare what we expect our function to do, this will ensure our functions acting accordingly
+- To declare we want to use these testing methods with our package we will run `use_testthat()`
+- Three things happened with this function call
+  1. Added the `testthat` library to *Suggests* in the `DESCRIPTION`
+    - More on this soon!
+  2. Created a directory `tests/testthat/`
+  3. Adds the script `test/testthat.R`
+- Now we need to write the test(s) for our `is_even()` function
+  - Two ways to begin this process:
+    1. In RStudio have `is_even.R` open so you can see the function and run `use_test()`
+    2. Or run `use_test("is_even")
+  - This will create `tests/testthat/test-is_even.R`, our script for creating tests
+  
+
+---
+
+# Writing Tests for *is_even.R*
+
+- Put this in the created `test-is_even.R` script:
+
+``` r
+test_that("this will return TRUE", {
+  expect_true(is_even(10))
+})
+
+test_that("this will return FALSE", {
+  expect_false(is_even(11))
+})
+```
+
+- Due to the simplicity of our function we only need a few simple tests
+  - First parameter of `test_that()` is `desc`, the name of the test
+  - Next we put the code for testing
+  - There are many different `expect_*` functions that make testing easy
+  - For each parameter there should be a test to make sure we are covering every possilbity of our functions
+     - This will align with **Code Coverage** testing that we will go over soon
+    
+---
+
+# Running the Tests
+
+- It is encouraged to run these tests locally to make sure they are not returning errors
+  - Make sure you have ran `library(testthat)` or `load_all()` to test the function
+  - Try to purposely make `is_even()` fail so you are familiar with the output of testing
+    - Be sure to change the test back to the correct method if you do this!
+- Run `test()` to run all tests that have been made for the package
+  - Hotkeys: Ctrl + Shift + T (Windows & Linux) or Cmd + Shift + T (macOS)
+  - For `is_even()`, you should get `OK: 2`, one for each one of the tests we made
+- Now would be a good tie to go through and practice the developing flow
+  1. document()
+  2. check()
+  3. test()
+  4. Commit and push
+  
+---
+
+name: importing-functions
+
 # Importing Other Functions
 
-- When we write our functions we may use other libraries functions
+- When we write our functions we may use another libraries functions
   - Such as the pipe, `%>%`, from magrittr
-- If we want to use these "outsider" functions within our package we will need to tell our package to **import** these libraries and functions
+- We needed `NAMESPACE` to **export** is_even(), we will need to **import** other packages and functions from their namespace
+- Run `use_package("magrittr")` to enable access to the pipe, `%>%`
+  - This wiill add `magrittr` to the `DESCRIPTION` file
+- Lets add a second function to the package to demonstrate the structore of a function that uses other packages, `use_r("evens_only")`
+- There are multiple methods for correctly importing functions
+  - If you are only using one function from a function use `library::function`
+    - This will make easier to keep track of other functions
+  - Adding `#' @importFrom  magrittr, %>%` to the roxygen comments is also an option
+  - If you are using multiple functions from a package use `#' @import library` in the roxygen comments
+  
+---
+
+# **evens_only()**
+
+``` r
+#' Return Evens
+#'
+#' Given a vector of numbers, this will allow the user to see the even numbers only
+#'
+#' @import magrittr
+#' @param x vector of numeric values
+#'
+#' @return even values
+#' @export
+#'
+#' @examples
+evens_only <- function(x) {
+  x[x %>% is_even()]
+}
+```
+
+- I strongly recommend to read more on importing other functions if this is an area you come across
+  - Chapter 9 [Namespace][r-pkg-namespace]
+- Make sure you run `document()` to create new documentation for the function
+  - Or if you are curious, run `check()` to see the error
+  - Getting familiar with errors is a great learning experience
+  
+---
+
+name: readme
+
+# Create a README
+
+- We now have a package on GitHub, it would be nice to explain our package in depth with code examples
+- This is where the README comes in
+  - For a simple example check out my readme for my package I am using to learn [here][koderkow]
+- Run `use_readme_rmd()`
+  - This will create a README.Rmd file
+  - Adds lines to `.Rbuildignore` so package building won't throw a warning
+    - The README.Rmd will throw an warning if it is not ignored due to it being an exepcted file type in the main directory
+  - Adds a hook to the .md and .Rmd to ensure they are always up to date with one another
+    - This will remind you if you forgot to knit the .Rmd
+- There are helpful sections included in this skeleton
+  - Describe the purpose of the package
+  - Code to install your package
+    - The default is to install from CRAN, I suggest switching this to `devtools::install_github("YOUR-USE-NAME/REPO-NAME")`
+  - A section to show a bit of usage
+- These can be populated with our previous work done
+  - Copy and paste information from the `DESCRIPTION` file
+  - Show code examples from start to finish, reproducibility is important!
+- Knit the .RMD and verify the README looks as expected
+
+---
+
+# What's Next?
+
+- If everything is set to go, commit and push
+- You now have your own package with documentation on GitHub!
+- The next sections will go over setting up automatic build testing for our package, we will start with **Travis CI**
+
+---
+
+# Travis CI
+
+- If you have are familiar with packages on GitHub this may look familiar: <img src="https://i.imgur.com/jrOk8iP.png" width="9%"/>
+- `build: passing`, what does this mean?
+  - Rewind to the output of `check()`, if there is 1 warning, error, or note this will show as `build: fail:`
+  - This shows users if there are any of these issues in the current version on GitHub
+  - Travis CI (Continuous Integration) is essentially doing a `check()` for us every commit and making sure it can be successfully installed on others machines
+    - If your package is not private and open source then Travis CI will be free for you
+  
+---
+
+name: travis-ci
+
+# Setting up Travis CI
+
+- Head to their website [travis-ci.org][travis-ci]
+- Hit the "Sign In with GitHub" button
+- Authorize and give permissions that Travis CI is asking for
+- You will land on a page with "GitHub Apps Integration" on it
+  - Hit the "Activate" button
+- You will be taken to GitHub to approve Travis CI with your repos
+  - Make sure "All repositories" is selected and hit "Approve & Install" at the bottom
+- In the RStudio console run `use_travis()` and your browser will open to the Travis CI site
+  - This creates the needed `travis.yml` for you with the specific code needed to make sure Travis runs correctly
+  - This function call also adds the `build: pass/fail` badge to our README.Rmd for us
+- Here "switch on" the name of your package/repo to enable build testing
+.center[<img src="https://i.imgur.com/4pBClQ7.png" width="70%"/>]
+- Go back to RStudio and knit the .Rmd then commit/push the related README files and `travis.yml`
+- With this commit, it will trigger the first build on Travis CI!
+
+---
+
+# Travis CI Notes
+
+- You can follow along with Travis CIif you want to see what goes on during the process by click on your repo while it says it is building
+- This log will always be available no matter what status the build ends with
+- If the build passes or fails this will automatically update your badge on GitHub
+  - Head to your repo and check out the README!
+- If the build fails check out the log and inspect where it failed
+  - Make sure `check()` returns no wanrings, errors, or notes! These will trigger Travis CI to fail
+  - Make sure to use `devtools` and `usethis` to create files for the packages, it will automatically write and update files that need to be ignored for us
+
 
 <!-- links used in slides -->
 [r-pkg-book]: https://r-pkgs.org/
@@ -379,3 +559,5 @@ name: commit-and-push
 [git-site]: https://github.com
 [pick-a-license]: http://blog.codinghorror.com/pick-a-license-any-license/
 [roxygen2]: https://r-pkgs.org/man.html
+[koderkow]: https://github.com/KoderKow/koderkow
+[travis-ci]: https://travis-ci.org/
