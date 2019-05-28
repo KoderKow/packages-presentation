@@ -62,7 +62,7 @@ name: presentation-goal
 
 # Presentation Goal
 
-The goal of this presentation is to serve as a quick start guide to making a package by bring together multiple sources of amazing information and tutorials to show how easy it is to not only create a package, but to integrate automated building, testing, and webpages by utilizing pre-built R packages. I hope this inspires others to create and contribute to packages that are used daily in R.
+The goal of this presentation is to serve as a quick start guide to making a package by bring together multiple sources of amazing information and tutorials to show how easy it is to not only create a package, but to integrate automated building, testing, and web documentation by utilizing pre-built R packages. I hope this inspires others to create and contribute to packages that are used daily in R.
 
 ## Goals
 
@@ -80,6 +80,7 @@ name: prerequisites
 
 # Prerequisites
 
+- It is recommended that you insure R is up to date on your device by downloading the most recent version [here](https://www.rstudio.com/products/rstudio/download/preview/)
 - Install these packages:
 ``` r
 install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
@@ -98,10 +99,20 @@ devtools::has_devel()
   - Follow Chapter 14.2 "Initial set up" of [*R Packages*][git-setup] if you do not have this already
 
 ---
+name: helpful-hints
 
+#Helpful Hints
+- When you first begin installing necessary packages and setting up your own package in R, R may restart. Be sure to recall library(package_name) where necessary. 
+  - e.g. library(devtools)
+  
+---
 name: what-is-a-package
 
 # What is a Package?
+- Think of a package as a collection of information that makes your life easier
+- Packages are often thought of as a collection of functions with help documentation.
+- However, packages may also include datasets.
+- All of the information in a package once loaded is stored in a nice virtual library, which is why you call: library(package_name). In essence, you are adding the tools to your temporary library.
 
 ---
 
@@ -238,7 +249,7 @@ name: license
     - The `+ file LICENSE` also requires an additonal file, `LICENSE`
     - This file generally has `YEAR:` and `COPYRIGHT HOLDER:` fields
 - Lucky for us, `usethis` has a function that will set this up for us
-- Run `use_mit_license("FIRST-NAME LAST-NAME")` in the console
+- Run `usethis::use_mit_license("FIRST-NAME LAST-NAME")` in the console
 - This will create the files for MIT and update your `DESCRIPTION` file for you
 - `usethis` will print out to the consoles what it is adding and/or changing to files in your package directory
 - This addresses the `Non-standard license specification: What license it uses` warning we received from `check()` earlier
@@ -249,7 +260,7 @@ name: setup-git
 
 # Setting up Git
 
-- Run `use_git()` in the console
+- Run `usethis::use_git()` in the console
 - This will initialise your project as a Git repo
 - `use_git()` will also automatically ask us if we want to commit our current files
   - Here type the number corresponding for "*I agree*" to commit them all by hitting the enter key
@@ -295,7 +306,7 @@ name: document
 .pull-left[
 - Open `R/is_even.R` and put the cursor somewhere in the `is_even()` function definition
 - In the menu bar at the top of the screen go to <br> `Code > Insert Roxygen Skeleton`
-- As the command states, this is only the skeleton. We will need to fill in the rest manually
+- As the command states, this is only the skeleton. We will need to fill in the rest manually as seen in the image below
 ]
 .pull-right[
 <img src="https://media.giphy.com/media/hWLRtkEeU6eAVwVu8W/giphy.gif" />
@@ -508,12 +519,12 @@ name: readme
 
 # Travis CI
 
-- If you have are familiar with packages on GitHub this may look familiar: <img src="https://i.imgur.com/jrOk8iP.png" width="9%"/>
+- If you are familiar with packages on GitHub this may look familiar: <img src="https://i.imgur.com/jrOk8iP.png" width="9%"/>
 - `build: passing`, what does this mean?
   - Rewind to the output of `check()`, if there is 1 warning, error, or note this will show as `build: fail:`
   - This shows users if there are any of these issues in the current version on GitHub
   - Travis CI (Continuous Integration) is essentially doing a `check()` for us every commit and making sure it can be successfully installed on others machines
-    - If your package is not private and open source then Travis CI will be free for you
+    - If your package is open source and not private then Travis CI will be free for you
   
 ---
 
@@ -524,9 +535,9 @@ name: travis-ci
 - Head to their website [travis-ci.org][travis-ci]
 - Hit the "Sign In with GitHub" button
 - Authorize and give permissions that Travis CI is asking for
-- You will land on a page with "GitHub Apps Integration" on it
+- You may land on a page with "GitHub Apps Integration" on it
   - Hit the "Activate" button
-- You will be taken to GitHub to approve Travis CI with your repos
+- You may also be taken to GitHub to approve Travis CI with your repos
   - Make sure "All repositories" is selected and hit "Approve & Install" at the bottom
 - In the RStudio console run `use_travis()` and your browser will open to the Travis CI site
   - This creates the needed `travis.yml` for you with the specific code needed to make sure Travis runs correctly
