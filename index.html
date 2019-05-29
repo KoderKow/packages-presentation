@@ -69,29 +69,24 @@ name: prerequisites
 # Prerequisites
 
 - It is recommended that you insure R is up to date on your device by downloading the most recent version [here](https://www.rstudio.com/products/rstudio/download/preview/)
-- Install these packages:
+- In a new R session install these packages:
 ``` r
 install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
 # get the development versions from github
 devtools::install_github("r-lib/devtools")
 devtools::install_github("r-lib/usethis")
 ```
-- C compiler
-  - Check if you have by running this in your console:
+
+#### C compiler
+- Check if you have by running this in your console:
 ``` r
 devtools::has_devel()
 ```
   - If `FALSE` is returned, follow section 1.3 in Hadley's book [*R Packages*][r-pkg-getting-started] for assistance in getting everything set up
-  
+
+#### Git
 - To host the package you will need Git and GitHub setup with RStudio
   - Follow Chapter 14.2 "Initial set up" of [*R Packages*][git-setup] if you do not have this already
-
----
-name: helpful-hints
-
-#Helpful Hints
-- When you first begin installing necessary packages and setting up your own package in R, R may restart. Be sure to recall library(package_name) where necessary. 
-  - e.g. library(devtools)
   
 ---
 name: what-is-a-package
@@ -544,6 +539,21 @@ name: travis-ci
 - If the build fails check out the log and inspect where it failed
   - Make sure `check()` returns no wanrings, errors, or notes! These will trigger Travis CI to fail
   - Make sure to use `devtools` and `usethis` to create files for the packages, it will automatically write and update files that need to be ignored for us
+  
+---
+
+# Thanks!
+
+Big thanks to Logan Harris (@lharris4211998) for testing the flow and constributing to the presentation!
+
+.pull-left[
+### Source Code for Slides
+- https://github.com/KoderKow/intro-to-neural-networks
+]
+
+.pull-right[
+### Slides Made with Xaringan
+- [R Package: Xaringan](https://github.com/yihui/xaringan)
 
 
 &lt;!-- links used in slides --&gt;
