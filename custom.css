@@ -37,3 +37,15 @@ span.imgText img {
 .remark-code-line {
   background-color: #e7e8e2;
 }
+
+pre {
+  margin: 1px 1px 1px 1px;
+}
+
+ul {
+  margin: 1px 0;
+}
+
+p {
+  margin: 1px 0;
+}
