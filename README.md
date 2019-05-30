@@ -17,3 +17,9 @@ commits](https://img.shields.io/github/commits-since/koderkow/packages-presentat
 The goal of this presentation to show how easy it is to develop a basic
 R package using modern methods. View the slides
 [here](https://koderkow.github.io/packages-presentation/#1).
+
+# To-Do List
+
+  - **pkgdown**: Create a github website for the package
+  - **pkgdown/Travis CI**: Automatically update *pkgdown* site with each
+    push using *Travis CI*
