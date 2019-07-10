@@ -16,7 +16,7 @@ class: center, middle, inverse, title-slide
 # 📦 Developing Packages 📦
 ## The Life-Cycle of Creating and Deploying Packages with R
 ### <br>Kyle Harris <br><i class='fab fa-twitter'></i> <i class='fab fa-instagram'></i> <i class='fab fa-github'></i> <span class="citation">@KoderKow</span>
-### <i class='fas fa-globe'></i> <a href="https://koderkow.rbind.io" class="uri">https://koderkow.rbind.io</a><br>Follow Along: <strong>Coming Soon</strong>
+### <i class='fas fa-globe'></i> <a href="https://koderkow.rbind.io" class="uri">https://koderkow.rbind.io</a><br>Follow Along: <a href="http://bit.ly/developing-packages" class="uri">http://bit.ly/developing-packages</a>
 
 ---
 
@@ -35,6 +35,7 @@ class: center, middle, inverse, title-slide
 - [First Function](#first-function)
 - [Test Functions](#test-functions)
 - [check() it!](#check-it)
+- [Editing the DESCRIPTION File](#description)
 - [Setting up Git](#setup-git)
 - [Setting up GitHub](#setup-github)
 - [Documenting Functions](#document)
@@ -43,6 +44,8 @@ class: center, middle, inverse, title-slide
 - [Importing Functions](#importing-functions)
 - [Create a README](#readme)
 - [Travis CI](#travis-ci)
+- [pkgdown](#pkgdown)
+- [What's Next?](#whats-next)
 
 ---
 
@@ -71,7 +74,7 @@ name: prerequisites
 - It is recommended that you insure R is up to date on your device by downloading the most recent version [here](https://www.rstudio.com/products/rstudio/download/preview/)
 - In a new R session install these packages:
 ``` r
-install.packages(c("devtools", "roxygen2", "testthat", "knitr"))
+install.packages(c("devtools", "roxygen2", "testthat", "knitr", "pkgdown"))
 # get the development versions from github
 devtools::install_github("r-lib/devtools")
 devtools::install_github("r-lib/usethis")
@@ -542,6 +545,46 @@ name: travis-ci
   
 ---
 
+name: pkgdown
+
+# Build a Website with *pkgdown*
+
+- "pkgdown is designed to make it quick and easy to build a website for your package. You can see pkgdown in action at https://pkgdown.r-lib.org"
+- Run `use_github_links` to update your description file with the link to your source code and issues for GitHug
+- Having this in the description will allow *pkgdown* to write these links on the website
+- To build a website for the package, run `build_site()`
+- That's it! After the function runs your main browser should open up with a preview of your site!
+- The default view is the README we made earlier
+  - This presentation will not go over README's in depth, be sure to view other README's to get an idea of their structure and what to cover!
+- On the right side of the screen we can see the associated GitHub links to our package, the packages license, the developers (that's you!), and build status
+- Now it is time to commit and push up all of these changes to the GitHub repo
+- On the GitHub repo page go to **Settings** and scroll down to **GitHub Pages**
+  - Change the **Source** to *master branch/docs folder*
+  - Now under **Source** there will be a URL that is the website representation of your package!
+  
+---
+
+name: whats-next
+
+# What's Next?
+
+- I would recommend that you make note of frequent actions you take in coding
+  - If you see yourself doing something frequently, make it a function in your package! 
+  - There is a good chance others come across this as well and would appreciate a package that reduces the repetitive code that could be possibly happening
+- There are more package flows out there!
+  - [tic](https://github.com/ropenscilabs/tic):
+      - Takes care a lot of package creating steps for you
+      - This includes Travis CI and other CI flows
+      - Option to automatically update the **pkgdown** site when a push to GitHub is made!
+      - I used tic to create my [kowr](https://github.com/KoderKow/kowr) package
+  - [golem](https://github.com/ThinkR-open/golem):
+      - Build a **Shiny** app in a package
+      - Functions take care of a lot of the work
+      - Test the **Shiny** app with **testthat**
+- I am sure there is more out there and I hope this lights a firey passion in you to continue exploring packaing building with R!
+
+---
+
 # Thanks!
 
 Big thanks to Logan Harris (@lharris4211998) for testing the flow and constributing to the presentation!
@@ -554,7 +597,7 @@ Big thanks to Logan Harris (@lharris4211998) for testing the flow and constribut
 .pull-right[
 ### Slides Made with Xaringan
 - [R Package: Xaringan](https://github.com/yihui/xaringan)
-
+]
 
 &lt;!-- links used in slides --&gt;
 [r-pkg-book]: https://r-pkgs.org/
